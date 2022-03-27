@@ -1,18 +1,21 @@
 <?php
-// PHP Data Objects(PDO) Sample Code:
-try {
-    $conn = new PDO("sqlsrv:server = tcp:jnexincorp.database.windows.net,1433; Database = jnexdb", "jnexadmin", "5Members");
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-}
-catch (PDOException $e) {
-    print("Error connecting to SQL Server.");
-    die(print_r($e));
-}
-$sql = "INSERT INTO `Persons`(`PersonID`, `LastName`, `FirstName`, `Address`,'City')
-VALUES(:id,:lastname,:firstname,:add,:city)";
- $stm->execute(array(':id' => 2 , ':lastnamename' => 'Saquib' , ':firstname' => 'Rizwan' , ':add' => 'saquib.rizwan@cloudways.com',':city '=>'pune'));
- 
-    echo "New record created successfully";
-?>	
+    $serverName = "jnexincorp.database.windows.net"; // update me
+    $connectionOptions = array(
+        "Database" => "janexdb", // update me
+        "Uid" => "jnexadmin", // update me
+        "PWD" => "5Members" // update me
+    );
+    //Establishes the connection
+    $conn = sqlsrv_connect($serverName, $connectionOptions);
+    $tsql= "insert into Persons values(2,'abc','abc','abc','pune');";
+    $getResults= sqlsrv_query($conn, $tsql);
+    echo ("Reading data from table" . PHP_EOL);
+    if ($getResults == FALSE)
+        echo (sqlsrv_errors());
+    while ($row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC)) {
+     echo ($row. PHP_EOL);
+    }
+    sqlsrv_free_stmt($getResults);
+?>
 	
 ?>
